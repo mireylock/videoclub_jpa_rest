@@ -17,7 +17,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder //puedo generar builders de categoría
 public class Categoria {
 
     @Id
