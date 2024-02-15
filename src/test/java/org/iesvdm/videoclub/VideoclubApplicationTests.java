@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -74,13 +77,13 @@ class VideoclubApplicationTests {
     }
 
     @Test
-    void guardarCategoriaPeli() {
+    void crearCategoria() {
+        Date fecha = new Date();
 
-
-
+        Categoria cat1 = new Categoria(0, "Romantico", new HashSet<>(), fecha);
+        categoriaRepository.save(cat1);
 
     }
-
 
 
 }
