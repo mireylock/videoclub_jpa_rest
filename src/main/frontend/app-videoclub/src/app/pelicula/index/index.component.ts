@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Categoria} from "../../categoria/categoria";
-import {Peliculaservice}
+import {PeliculaService} from "../pelicula.service";
 
 @Component({
   selector: 'app-index',
@@ -10,7 +10,7 @@ import {Peliculaservice}
 export class IndexComponent {
   peliculas: Categoria[] = [];
 
-  constructor(public peliculaservice:Peliculaservice) { }
+  constructor(public peliculaservice:PeliculaService) { }
 
   ngOnInit(): void {
     this.peliculaservice.getAll().subscribe((data: Categoria[])=>{
