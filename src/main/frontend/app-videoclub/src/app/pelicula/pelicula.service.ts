@@ -11,7 +11,7 @@ import { Pelicula } from './pelicula';
 })
 export class PeliculaService {
 
-  private apiURL = "http://localhost:8080/peliculas";
+  private apiURL = "http://localhost:8080/peliculas/";
 
   httpOptions = {
     headers: new HttpHeaders({

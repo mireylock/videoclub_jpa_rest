@@ -1,5 +1,6 @@
 package org.iesvdm.videoclub;
 
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 import org.iesvdm.videoclub.domain.Categoria;
 import org.iesvdm.videoclub.domain.Idioma;
 import org.iesvdm.videoclub.domain.Pelicula;
@@ -44,6 +45,8 @@ class VideoclubApplicationTests {
 
         Categoria cat1 = new Categoria();
         cat1.setNombre("Drama");
+        cat1.setUltimaActualizacion(new Date(2024 - 1900, 1, 18, 21, 30, 0));
+
         categoriaRepository.save(cat1);
 
         Categoria cat2 = new Categoria();
@@ -53,6 +56,10 @@ class VideoclubApplicationTests {
         Categoria cat3 = new Categoria();
         cat2.setNombre("Crimen");
         categoriaRepository.save(cat3);
+
+        Categoria cat4 = new Categoria();
+        cat2.setNombre("solita");
+        categoriaRepository.save(cat4);
 
         Set<Categoria> categoriasPeli1 = new HashSet<>();
         categoriasPeli1.add(cat1);

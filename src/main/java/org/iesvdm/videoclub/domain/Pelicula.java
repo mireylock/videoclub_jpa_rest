@@ -27,7 +27,7 @@ public class Pelicula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_pelicula")
-    private long idPelicula;
+    private long id;
     private String titulo;
     private String descripcion;
     @Column(name = "anyo_lanzamiento")

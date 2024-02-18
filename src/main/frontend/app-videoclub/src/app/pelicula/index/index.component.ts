@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Categoria} from "../../categoria/categoria";
+import {Pelicula} from "../../pelicula/pelicula";
 import {PeliculaService} from "../pelicula.service";
 
 @Component({
@@ -8,21 +8,21 @@ import {PeliculaService} from "../pelicula.service";
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent {
-  peliculas: Categoria[] = [];
+  peliculas: Pelicula[] = [];
 
   constructor(public peliculaservice:PeliculaService) { }
 
   ngOnInit(): void {
-    this.peliculaservice.getAll().subscribe((data: Categoria[])=>{
+    this.peliculaservice.getAll().subscribe((data: Pelicula[])=>{
       this.peliculas= data;
       console.log(this.peliculas);
     })
   }
 
-  deleteCategoria(id: any){
+  deletePelicula(id: any){
     this.peliculaservice.delete(id).subscribe(res => {
       this.peliculas = this.peliculas.filter(cat => cat.id !== id);
-      console.log('Categoria id =' + id + ' eliminada satisfactoriamente!');
+      console.log('Pelicula id =' + id + ' eliminada satisfactoriamente!');
     })
   }
 

@@ -31,7 +31,7 @@ public class PeliculaService {
 
     public Pelicula replace(Long id, Pelicula pelicula) {
 
-        return this.peliculaRepository.findById(id).map( p -> (id.equals(pelicula.getIdPelicula())  ?
+        return this.peliculaRepository.findById(id).map( p -> (id.equals(pelicula.getId())  ?
                                                             this.peliculaRepository.save(pelicula) : null))
                 .orElseThrow(() -> new PeliculaNotFoundException(id));
 
