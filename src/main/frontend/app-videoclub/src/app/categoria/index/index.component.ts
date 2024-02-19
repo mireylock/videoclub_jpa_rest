@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import { Categoria} from "../categoria";
 import {CategoriaService} from "../categoria.service";
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import {ModalComponent} from "../../modal/modal.component";
 
 @Component({
   selector: 'app-index',
@@ -11,7 +13,14 @@ export class IndexComponent implements OnInit {
 
   categorias: Categoria[] = [];
 
-  constructor(public categoriaService:CategoriaService) { }
+  constructor(public categoriaService:CategoriaService, private modalService:MdbModalService) { }
+
+  modalRef: MdbModalRef<ModalComponent> | null = null;
+
+  openModal(tipoElemento: string) {
+    this.modalRef = this.modalService.open(ModalComponent, { data: { tipo: tipoElemento } });
+  }
+
 
   ngOnInit(): void {
     this.categoriaService.getAll().subscribe((data: Categoria[])=>{
