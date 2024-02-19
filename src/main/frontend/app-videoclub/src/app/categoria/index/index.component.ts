@@ -13,13 +13,9 @@ export class IndexComponent implements OnInit {
 
   categorias: Categoria[] = [];
 
-  constructor(public categoriaService:CategoriaService, private modalService:MdbModalService) { }
-
   modalRef: MdbModalRef<ModalComponent> | null = null;
 
-  openModal(tipoElemento: string) {
-    this.modalRef = this.modalService.open(ModalComponent, { data: { tipo: tipoElemento } });
-  }
+  constructor(public categoriaService:CategoriaService, private modalService:MdbModalService) { }
 
 
   ngOnInit(): void {
@@ -36,6 +32,11 @@ export class IndexComponent implements OnInit {
     })
   }
 
+  openModal() {
+    this.modalRef = this.modalService.open(ModalComponent);
+  }
 
+
+  protected readonly ModalComponent = ModalComponent;
 }
 

@@ -13,9 +13,10 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 export class IndexComponent {
   peliculas: Pelicula[] = [];
 
-  constructor(public peliculaservice:PeliculaService, private modalService:MdbModalService) { }
-
   modalRef: MdbModalRef<ModalComponent> | null = null;
+
+
+  constructor(public peliculaservice:PeliculaService, private modalService:MdbModalService) { }
 
   ngOnInit(): void {
     this.peliculaservice.getAll().subscribe((data: Pelicula[])=>{
@@ -31,7 +32,10 @@ export class IndexComponent {
     })
   }
 
-  openModal(tipoElemento: string) {
-    this.modalRef = this.modalService.open(ModalComponent, { data: { tipo: tipoElemento } });
+  openModal() {
+    this.modalRef = this.modalService.open(ModalComponent);
+    // this.modalRef = this.modalService.open(ModalComponent, { data: { tipo: tipoElemento } });
   }
+
+
 }
