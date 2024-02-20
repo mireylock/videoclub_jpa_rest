@@ -14,7 +14,7 @@ export class EditComponent implements OnInit {
   id: number = 0;
   categoria: Categoria = { id: 0, nombre: "VOID", ultimaActualizacion: "1970-01-01"};
   form: FormGroup =   new FormGroup({
-    categoria:  new FormControl('', [ Validators.required, Validators.pattern('^[a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ \-\']+') ])
+    nombre:  new FormControl('', [ Validators.required, Validators.pattern('^[a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ \-\']+') ])
   });
 
   constructor(
@@ -30,7 +30,6 @@ export class EditComponent implements OnInit {
 
       this.form.get('nombre')?.setValue(this.categoria.nombre);
 
-
     });
   }
 
@@ -41,7 +40,7 @@ export class EditComponent implements OnInit {
   submit(){
     console.log(this.form.value);
     this.categoriaService.update(this.id, this.form.value).subscribe(res => {
-      console.log('Categroría actualizada satisfactoriamente!');
+      console.log('Categoría actualizada satisfactoriamente!');
       this.router.navigateByUrl('categoria/index').then();
     })
   }

@@ -1,16 +1,22 @@
-import {Component, Inject} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { CategoriaService} from "../categoria/categoria.service";
-import { PeliculaService} from "../pelicula/pelicula.service";
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {ModalService} from "../service/modal.service";
+
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  styleUrls: ['./modal.component.css'],
 })
 export class ModalComponent {
-  constructor(public modalRef: MdbModalRef<ModalComponent>
-  ) {}
+  confirm: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  constructor(public modalRef: MdbModalRef<ModalComponent>, private modalService: ModalService) {}
+
+  confirmAction() {
+    this.modalService.confirmAction(true);
+    this.modalRef.close();
+  }
+
 
 }

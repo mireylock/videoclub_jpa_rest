@@ -50,10 +50,22 @@ export class CategoriaService {
   }
 
   delete(id: number){
+
+    //
+    // return this.httpClient.delete<Categoria>(this.apiURL + id, this.httpOptions)
+    //   .pipe(
+    //     catchError(this.errorHandler)
+    //   )
+
     return this.httpClient.delete<Categoria>(this.apiURL + id, this.httpOptions)
       .pipe(
-        catchError(this.errorHandler)
-      )
+        catchError(error => {
+          if (error.status === 500 && error.error.message.includes('Cannot delete or update a parent row')) {
+            alert('No puedes eliminar esta categoría porque está asociada a una película.');
+          }
+          return throwError(error);
+        })
+      );
   }
 
   errorHandler(error: any) {

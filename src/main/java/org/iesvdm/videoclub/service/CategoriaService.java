@@ -31,9 +31,17 @@ public class CategoriaService {
 
     public Categoria replace(Long id, Categoria categoria) {
 
-        return this.categoriaRepository.findById(id).map( p -> (id.equals(categoria.getId())  ?
-                        this.categoriaRepository.save(categoria) : null))
+        return this.categoriaRepository.findById(id)
+                .map(c -> {
+                    categoria.setId(id); // si no se setea el id no lo guarda
+                    return this.categoriaRepository.save(categoria);
+                })
                 .orElseThrow(() -> new CategoriaNotFoundException(id));
+
+//
+//        return this.categoriaRepository.findById(id).map( p -> (id.equals(categoria.getId())  ?
+//                        this.categoriaRepository.save(categoria) : null))
+//                .orElseThrow(() -> new CategoriaNotFoundException(id));
 
     }
 

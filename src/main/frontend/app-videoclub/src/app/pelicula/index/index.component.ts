@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Pelicula} from "../../pelicula/pelicula";
 import {PeliculaService} from "../pelicula.service";
 import {ModalComponent} from "../../modal/modal.component";
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import {askConfirmation} from "@angular/cli/src/utilities/prompt";
+import {ModalService} from "../../service/modal.service";
 
 
 @Component({
@@ -12,30 +14,30 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 })
 export class IndexComponent {
   peliculas: Pelicula[] = [];
+  @Input() confirm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  modalRef: MdbModalRef<ModalComponent> | null = null;
 
-
-  constructor(public peliculaservice:PeliculaService, private modalService:MdbModalService) { }
+  constructor(public peliculaservice:PeliculaService, private modalService:MdbModalService, private modalService1:ModalService) { }
 
   ngOnInit(): void {
     this.peliculaservice.getAll().subscribe((data: Pelicula[])=>{
       this.peliculas= data;
       console.log(this.peliculas);
     })
+
   }
 
-  deletePelicula(id: any){
-    this.peliculaservice.delete(id).subscribe(res => {
-      this.peliculas = this.peliculas.filter(cat => cat.id !== id);
-      console.log('Pelicula id =' + id + ' eliminada satisfactoriamente!');
-    })
-  }
+  deletePelicula(id: any) {
+    this.modalService.open(ModalComponent);
+    this.modalService1.confirm$.subscribe((confirm: boolean) => {
+      if (confirm) {
+        this.peliculaservice.delete(id).subscribe(res => {
+          this.peliculas = this.peliculas.filter(cat => cat.id !== id);
 
-  openModal() {
-    this.modalRef = this.modalService.open(ModalComponent);
-    // this.modalRef = this.modalService.open(ModalComponent, { data: { tipo: tipoElemento } });
+          console.log('Película id =' + id + ' eliminada satisfactoriamente!');
+        })
+      }
+    });
   }
-
 
 }

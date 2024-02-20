@@ -1,8 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit} from '@angular/core';
 import { Categoria} from "../categoria";
 import {CategoriaService} from "../categoria.service";
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import {ModalComponent} from "../../modal/modal.component";
+import {PeliculaService} from "../../pelicula/pelicula.service";
+import {ModalService} from "../../service/modal.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-index',
@@ -13,9 +16,10 @@ export class IndexComponent implements OnInit {
 
   categorias: Categoria[] = [];
 
-  modalRef: MdbModalRef<ModalComponent> | null = null;
+  @Input() confirm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(public categoriaService:CategoriaService, private modalService:MdbModalService) { }
+  constructor(public categoriaService:CategoriaService, private modalService:MdbModalService,
+              private modalService1:ModalService) { }
 
 
   ngOnInit(): void {
@@ -26,17 +30,20 @@ export class IndexComponent implements OnInit {
   }
 
   deleteCategoria(id: any){
-    this.categoriaService.delete(id).subscribe(res => {
-      this.categorias = this.categorias.filter(cat => cat.id !== id);
-      console.log('Categoria id =' + id + ' eliminada satisfactoriamente!');
+    this.modalService.open(ModalComponent);
+
+    this.modalService1.confirm$.subscribe( (confirm:boolean) => {
+      if (confirm) {
+        this.categoriaService.delete(id).subscribe(res => {
+          this.categorias = this.categorias.filter(cat => cat.id !== id);
+          console.log('Categoria id =' + id + ' eliminada satisfactoriamente!');
+        })
+      }
     })
-  }
 
-  openModal() {
-    this.modalRef = this.modalService.open(ModalComponent);
   }
 
 
-  protected readonly ModalComponent = ModalComponent;
+
 }
 
