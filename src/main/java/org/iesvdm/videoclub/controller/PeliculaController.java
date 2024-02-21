@@ -1,12 +1,14 @@
 package org.iesvdm.videoclub.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.iesvdm.videoclub.domain.Categoria;
 import org.iesvdm.videoclub.domain.Pelicula;
 import org.iesvdm.videoclub.service.PeliculaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -19,11 +21,18 @@ public class PeliculaController {
         this.peliculaService = peliculaService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping(value = {"","/"}, params = {"!buscar"})
     public List<Pelicula> all() {
         log.info("Accediendo a todas las películas");
         return this.peliculaService.all();
     }
+
+//    @GetMapping(value = {"", "/"})
+//    public List<Pelicula> all (@RequestParam("buscar") String nombreCategoria) {
+//        log.info("Accediendo a todas las películas con filtro buscar: %s");
+//        return this.peliculaService.findPeliByCategoriaOrderByTituloAsc(nombreCategoria);
+//    }
+
 
     @PostMapping({"","/"})
     public Pelicula newPelicula(@RequestBody Pelicula pelicula) {

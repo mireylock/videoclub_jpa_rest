@@ -6,6 +6,7 @@ import org.iesvdm.videoclub.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoriaService {
@@ -49,5 +50,9 @@ public class CategoriaService {
         this.categoriaRepository.findById(id).map(p -> {this.categoriaRepository.delete(p);
                     return p;})
                 .orElseThrow(() -> new CategoriaNotFoundException(id));
+    }
+
+    public List<Categoria> findCategoriaByNombre(Optional<String> nombre) {
+        return this.categoriaRepository.findCategoriaByNombreContainingOrderByNombreAsc(nombre);
     }
 }
