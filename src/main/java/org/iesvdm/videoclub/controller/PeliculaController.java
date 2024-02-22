@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -21,17 +22,28 @@ public class PeliculaController {
         this.peliculaService = peliculaService;
     }
 
-    @GetMapping(value = {"","/"}, params = {"!buscar"})
+    @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar"})
     public List<Pelicula> all() {
         log.info("Accediendo a todas las películas");
-        return this.peliculaService.all();
+        //return this.peliculaService.all();
+
+        //Para el conteo, crear un DTO de película con publicDTO (Pelicula peli) y super(peli.getId()....) y el int conteo
+//        return this.peliculaService.all().stream().map(p-> {
+//            peliculaDTO peliDTO = new PeliculaDTO(p);
+//            peliDTO.setConteo((int)Math.random()*100); --> aquí lanzar una query que va sacando el conteo
+//            return peliDTO;
+//        }).collect(Collectors.toList());
+
+        //o con el constructor con dos campos solo hay que devolver un new PeliculaDTO
+
+
     }
 
-//    @GetMapping(value = {"", "/"})
-//    public List<Pelicula> all (@RequestParam("buscar") String nombreCategoria) {
-//        log.info("Accediendo a todas las películas con filtro buscar: %s");
-//        return this.peliculaService.findPeliByCategoriaOrderByTituloAsc(nombreCategoria);
-//    }
+    @GetMapping(value = {"", "/"})
+    public List<Pelicula> all (Optional<String> buscar, Optional<String> ordenar) {
+        log.info("Accediendo a todas las películas con filtro buscar: %s");
+        return this.peliculaService.all(buscar, ordenar);
+    }
 
 
     @PostMapping({"","/"})

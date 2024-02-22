@@ -21,6 +21,26 @@ public class CategoriaService {
         return this.categoriaRepository.findAll();
     }
 
+    public List<Categoria> all(Optional<String> buscar, Optional<String> ordenar) {
+        if (buscar.isPresent() && ordenar.isPresent()) {
+            if(ordenar.get().equals("asc")) {
+                return this.categoriaRepository.findAllByOrderByNombreAsc();
+            } else {
+                return this.categoriaRepository.findCategoriaByNombreContainingIgnoreCase(buscar.get());
+            }
+        } else if (!buscar.isPresent() && ordenar.isPresent()) {
+            if (ordenar.get().equals("asc")) {
+                return this.categoriaRepository.findAllByOrderByNombreAsc();
+            } else {
+                return this.categoriaRepository.findAllByOrderByNombreDesc();
+            }
+        } else if (buscar.isPresent() && !ordenar.isPresent()) {
+            return this.categoriaRepository.findCategoriaByNombreContainingIgnoreCase(buscar.get());
+        } else {
+            return this.categoriaRepository.findAll();
+        }
+    }
+
     public Categoria save(Categoria categoria) {
         return this.categoriaRepository.save(categoria);
     }
@@ -52,7 +72,6 @@ public class CategoriaService {
                 .orElseThrow(() -> new CategoriaNotFoundException(id));
     }
 
-    public List<Categoria> findCategoriaByNombre(Optional<String> nombre) {
-        return this.categoriaRepository.findCategoriaByNombreContainingOrderByNombreAsc(nombre);
-    }
+
+
 }

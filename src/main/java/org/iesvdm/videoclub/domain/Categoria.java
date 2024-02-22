@@ -26,8 +26,7 @@ public class Categoria {
     private long id;
     private String nombre;
 
-    @ManyToMany(
-            mappedBy = "categorias")
+    @ManyToMany(mappedBy = "categorias")
     @JsonIgnore
     Set<Pelicula> peliculas = new HashSet<>();
 

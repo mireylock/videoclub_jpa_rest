@@ -6,6 +6,7 @@ import org.iesvdm.videoclub.domain.Idioma;
 import org.iesvdm.videoclub.domain.Pelicula;
 import org.iesvdm.videoclub.repository.CategoriaRepository;
 import org.iesvdm.videoclub.repository.IdiomaRepository;
+import org.iesvdm.videoclub.repository.PeliculaCustomQuery;
 import org.iesvdm.videoclub.repository.PeliculaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @SpringBootTest
 class VideoclubApplicationTests {
@@ -28,6 +27,9 @@ class VideoclubApplicationTests {
 
     @Autowired
     IdiomaRepository idiomaRepository;
+
+    @Autowired
+    PeliculaCustomQuery peliculaCustomQuery;
 
     @Test
     void contextLoads() {
@@ -90,6 +92,13 @@ class VideoclubApplicationTests {
         Categoria cat1 = new Categoria(0, "Romantico", new HashSet<>(), fecha);
         categoriaRepository.save(cat1);
 
+    }
+
+    @Test
+    void peliculaCustomQuery() {
+        List<Pelicula> pelisExpected = this.peliculaCustomQuery.findPelicula(Optional.of("La"), Optional.of("asc"));
+
+        pelisExpected.forEach(System.out::println);
     }
 
 

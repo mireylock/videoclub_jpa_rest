@@ -28,11 +28,11 @@ public class CategoriaController {
     }
 
     @GetMapping(value = {"", "/"})
-    public List<Categoria> all (@RequestParam("buscar")Optional<String> buscarOptional) {
+    public List<Categoria> all (Optional<String> buscarOptional, Optional<String> orden) {
         log.info("Accediendo a todas las categorías con filtro buscar: %s");
         buscarOptional.orElse("VOID");
 
-        return this.categoriaService.findCategoriaByNombre(buscarOptional);
+        return this.categoriaService.all(buscarOptional, orden);
     }
 
     @PostMapping({"","/"})

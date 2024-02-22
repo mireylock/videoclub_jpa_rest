@@ -6,6 +6,7 @@ import org.iesvdm.videoclub.repository.PeliculaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PeliculaService {
@@ -19,6 +20,27 @@ public class PeliculaService {
     public List<Pelicula> all() {
         return this.peliculaRepository.findAll();
     }
+
+    public List<Pelicula> all(Optional<String> buscar, Optional<String> ordenar) {
+        if (buscar.isPresent() && ordenar.isPresent()) {
+            if(ordenar.get().equals("asc")) {
+                return this.peliculaRepository.findAllByOrderByTituloAsc();
+            } else {
+                return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCase(buscar.get());
+            }
+        } else if (!buscar.isPresent() && ordenar.isPresent()) {
+            if (ordenar.get().equals("asc")) {
+                return this.peliculaRepository.findAllByOrderByTituloAsc();
+            } else {
+                return this.peliculaRepository.findAllByOrderByTituloDesc();
+            }
+        } else if (buscar.isPresent() && !ordenar.isPresent()) {
+            return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCase(buscar.get());
+        } else {
+            return this.peliculaRepository.findAll();
+        }
+    }
+
 
     public Pelicula save(Pelicula pelicula) {
         return this.peliculaRepository.save(pelicula);

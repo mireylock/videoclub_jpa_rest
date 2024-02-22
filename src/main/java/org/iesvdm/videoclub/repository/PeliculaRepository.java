@@ -10,9 +10,8 @@ import java.util.List;
 @Repository
 public interface PeliculaRepository extends JpaRepository<Pelicula, Long> {
 
-    //public List<Pelicula> findByTituloContainingIgnoreCaseOOrderByTituloAsc(String titulo);
-
-    //Buscar las películas según categoría???
-
+    public List<Pelicula> findPeliculaByTituloContainingIgnoreCase(String titulo);
+    List<Pelicula> findAllByOrderByTituloAsc();
+    List<Pelicula> findAllByOrderByTituloDesc();
 
 }

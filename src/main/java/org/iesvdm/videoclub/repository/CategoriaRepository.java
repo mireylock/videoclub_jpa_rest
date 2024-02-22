@@ -5,11 +5,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
-    public List<Categoria> findCategoriaByNombreContainingOrderByNombreAsc(Optional<String> nombre);
+//    public List<Categoria> findCategoriaByNombreContainingOrderByNombreAsc(Optional<String> nombre);
+//    public List<Categoria> findCategoriaByNombreContainingOrderByNombreDesc(Optional<String> nombre);
+
+    public List<Categoria> findCategoriaByNombreContainingIgnoreCase(String buscar);
+
+    List<Categoria> findAllByOrderByNombreAsc();
+    List<Categoria> findAllByOrderByNombreDesc();
+
+
 
 }
