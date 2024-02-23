@@ -32,8 +32,7 @@ public class CategoriaController {
     @GetMapping(value = {"", "/"}, params = {"!pagina", "!tamanio"})
     public List<Categoria> all (Optional<String> buscar, Optional<String> order) {
         log.info("Accediendo a todas las categorías con filtro buscar: %s");
-        buscar.orElse("VOID");
-        order.orElse("VOID");
+
 
         return this.categoriaService.all(buscar, order);
     }

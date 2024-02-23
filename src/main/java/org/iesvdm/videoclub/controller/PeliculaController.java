@@ -3,6 +3,7 @@ package org.iesvdm.videoclub.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.iesvdm.videoclub.domain.Categoria;
 import org.iesvdm.videoclub.domain.Pelicula;
+import org.iesvdm.videoclub.dto.PeliculaDTO;
 import org.iesvdm.videoclub.service.PeliculaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,22 +28,17 @@ public class PeliculaController {
     @GetMapping(value = {"","/"})
     public List<Pelicula> all() {
         log.info("Accediendo a todas las películas");
-        return this.peliculaService.all();
+        //return this.peliculaService.all();
 
-        //Para el conteo, crear un DTO de película con publicDTO (Pelicula peli) y super(peli.getId()....) y el int conteo
-//        return this.peliculaService.all().stream().map(p-> {
-//            peliculaDTO peliDTO = new PeliculaDTO(p);
-//            peliDTO.setConteo((int)Math.random()*100); --> aquí lanzar una query que va sacando el conteo
-//            return peliDTO;
-//        }).collect(Collectors.toList());
-
-        //o con el constructor con dos campos solo hay que devolver un new PeliculaDTO
+        return this.peliculaService.all().stream().map(
+                pelicula -> {
+                    int conteo = pelicula.getCategorias().size();
+                    return new PeliculaDTO(pelicula, conteo);
+                }
+        ).collect(Collectors.toList());
 
 
     }
-
-
-
 
 
     @PostMapping({"","/"})
