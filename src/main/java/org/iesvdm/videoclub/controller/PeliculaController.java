@@ -25,7 +25,7 @@ public class PeliculaController {
     @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar"})
     public List<Pelicula> all() {
         log.info("Accediendo a todas las películas");
-        //return this.peliculaService.all();
+        return this.peliculaService.all();
 
         //Para el conteo, crear un DTO de película con publicDTO (Pelicula peli) y super(peli.getId()....) y el int conteo
 //        return this.peliculaService.all().stream().map(p-> {
@@ -40,9 +40,12 @@ public class PeliculaController {
     }
 
     @GetMapping(value = {"", "/"})
-    public List<Pelicula> all (Optional<String> buscar, Optional<String> ordenar) {
+    public List<Pelicula> all (Optional<String> buscar, Optional<String> order) {
         log.info("Accediendo a todas las películas con filtro buscar: %s");
-        return this.peliculaService.all(buscar, ordenar);
+        buscar.orElse("VOID");
+        order.orElse("VOID");
+        
+        return this.peliculaService.all(buscar, order);
     }
 
 

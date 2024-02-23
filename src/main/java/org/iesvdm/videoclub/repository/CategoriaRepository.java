@@ -10,10 +10,10 @@ import java.util.List;
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
 //    public List<Categoria> findCategoriaByNombreContainingOrderByNombreAsc(Optional<String> nombre);
-//    public List<Categoria> findCategoriaByNombreContainingOrderByNombreDesc(Optional<String> nombre);
 
     public List<Categoria> findCategoriaByNombreContainingIgnoreCase(String buscar);
-
+    public List<Categoria> findCategoriaByNombreContainingIgnoreCaseOrderByNombreAsc(String buscar);
+    public List<Categoria> findCategoriaByNombreContainingIgnoreCaseOrderByNombreDesc(String buscar);
     List<Categoria> findAllByOrderByNombreAsc();
     List<Categoria> findAllByOrderByNombreDesc();
 

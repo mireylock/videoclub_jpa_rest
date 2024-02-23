@@ -21,21 +21,21 @@ public class PeliculaService {
         return this.peliculaRepository.findAll();
     }
 
-    public List<Pelicula> all(Optional<String> buscar, Optional<String> ordenar) {
-        if (buscar.isPresent() && ordenar.isPresent()) {
-            if(ordenar.get().equals("asc")) {
-                return this.peliculaRepository.findAllByOrderByTituloAsc();
+    public List<Pelicula> all(Optional<String> buscarOpt, Optional<String> orderOpt) {
+        if (buscarOpt.isPresent() && orderOpt.isPresent()) {
+            if(orderOpt.get().equals("asc")) {
+                return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCaseOrderByTituloAsc(buscarOpt.get());
             } else {
-                return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCase(buscar.get());
+                return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCaseOrderByTituloDesc(buscarOpt.get());
             }
-        } else if (!buscar.isPresent() && ordenar.isPresent()) {
-            if (ordenar.get().equals("asc")) {
+        } else if (!buscarOpt.isPresent() && orderOpt.isPresent()) {
+            if (orderOpt.get().equals("asc")) {
                 return this.peliculaRepository.findAllByOrderByTituloAsc();
             } else {
                 return this.peliculaRepository.findAllByOrderByTituloDesc();
             }
-        } else if (buscar.isPresent() && !ordenar.isPresent()) {
-            return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCase(buscar.get());
+        } else if (buscarOpt.isPresent() && !orderOpt.isPresent()) {
+            return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCase(buscarOpt.get());
         } else {
             return this.peliculaRepository.findAll();
         }

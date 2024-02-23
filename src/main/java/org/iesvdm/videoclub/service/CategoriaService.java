@@ -21,21 +21,21 @@ public class CategoriaService {
         return this.categoriaRepository.findAll();
     }
 
-    public List<Categoria> all(Optional<String> buscar, Optional<String> ordenar) {
-        if (buscar.isPresent() && ordenar.isPresent()) {
-            if(ordenar.get().equals("asc")) {
-                return this.categoriaRepository.findAllByOrderByNombreAsc();
+    public List<Categoria> all(Optional<String> buscarOpt, Optional<String> ordenarOpt) {
+        if (buscarOpt.isPresent() && ordenarOpt.isPresent()) {
+            if(ordenarOpt.get().equals("asc")) {
+                return this.categoriaRepository.findCategoriaByNombreContainingIgnoreCaseOrderByNombreAsc(buscarOpt.get());
             } else {
-                return this.categoriaRepository.findCategoriaByNombreContainingIgnoreCase(buscar.get());
+                return this.categoriaRepository.findCategoriaByNombreContainingIgnoreCaseOrderByNombreDesc(buscarOpt.get());
             }
-        } else if (!buscar.isPresent() && ordenar.isPresent()) {
-            if (ordenar.get().equals("asc")) {
+        } else if (!buscarOpt.isPresent() && ordenarOpt.isPresent()) {
+            if (ordenarOpt.get().equals("asc")) {
                 return this.categoriaRepository.findAllByOrderByNombreAsc();
             } else {
                 return this.categoriaRepository.findAllByOrderByNombreDesc();
             }
-        } else if (buscar.isPresent() && !ordenar.isPresent()) {
-            return this.categoriaRepository.findCategoriaByNombreContainingIgnoreCase(buscar.get());
+        } else if (buscarOpt.isPresent() && !ordenarOpt.isPresent()) {
+            return this.categoriaRepository.findCategoriaByNombreContainingIgnoreCase(buscarOpt.get());
         } else {
             return this.categoriaRepository.findAll();
         }
