@@ -5,9 +5,11 @@ import org.iesvdm.videoclub.domain.Categoria;
 import org.iesvdm.videoclub.domain.Pelicula;
 import org.iesvdm.videoclub.service.PeliculaService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,7 @@ public class PeliculaController {
         this.peliculaService = peliculaService;
     }
 
-    @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar"})
+    @GetMapping(value = {"","/"})
     public List<Pelicula> all() {
         log.info("Accediendo a todas las películas");
         return this.peliculaService.all();
@@ -39,14 +41,8 @@ public class PeliculaController {
 
     }
 
-    @GetMapping(value = {"", "/"})
-    public List<Pelicula> all (Optional<String> buscar, Optional<String> order) {
-        log.info("Accediendo a todas las películas con filtro buscar: %s");
-        buscar.orElse("VOID");
-        order.orElse("VOID");
-        
-        return this.peliculaService.all(buscar, order);
-    }
+
+
 
 
     @PostMapping({"","/"})

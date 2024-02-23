@@ -4,9 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.iesvdm.videoclub.domain.Categoria;
 import org.iesvdm.videoclub.service.CategoriaService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -21,13 +23,13 @@ public class CategoriaController {
         this.categoriaService = categoriaService;
     }
 
-    @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar"})
+    @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar", "!pagina", "!tamanio"})
     public List<Categoria> all() {
         log.info("Accediendo a todas las categorias");
         return this.categoriaService.all();
     }
 
-    @GetMapping(value = {"", "/"})
+    @GetMapping(value = {"", "/"}, params = {"!pagina", "!tamanio"})
     public List<Categoria> all (Optional<String> buscar, Optional<String> order) {
         log.info("Accediendo a todas las categorías con filtro buscar: %s");
         buscar.orElse("VOID");
@@ -35,6 +37,15 @@ public class CategoriaController {
 
         return this.categoriaService.all(buscar, order);
     }
+
+    @GetMapping(value = {"", "/"})
+    public ResponseEntity<Map<String, Object>> all (@RequestParam(value="pagina", defaultValue = "0") int pagina,
+                                                    @RequestParam(value="tamanio", defaultValue = "3") int tamanio) {
+        log.info("Accediendo a categorias con paginación");
+        Map<String, Object> responseAll = this.categoriaService.all(pagina, tamanio);
+        return ResponseEntity.ok(responseAll);
+    }
+
 
     @PostMapping({"","/"})
     public Categoria newCategoria(@RequestBody Categoria categoria) {
