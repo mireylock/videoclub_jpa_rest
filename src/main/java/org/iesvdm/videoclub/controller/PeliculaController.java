@@ -1,7 +1,6 @@
 package org.iesvdm.videoclub.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.iesvdm.videoclub.domain.Categoria;
 import org.iesvdm.videoclub.domain.Pelicula;
 import org.iesvdm.videoclub.dto.PeliculaDTO;
 import org.iesvdm.videoclub.service.PeliculaService;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -25,19 +23,38 @@ public class PeliculaController {
         this.peliculaService = peliculaService;
     }
 
-    @GetMapping(value = {"","/"})
+    @GetMapping(value = {"","/"}, params = {"!orden", "!paginado"})
     public List<Pelicula> all() {
         log.info("Accediendo a todas las películas");
-        //return this.peliculaService.all();
+        return this.peliculaService.all();
+//        return this.peliculaService.all().stream().map(
+//                pelicula -> {
+//                    int conteo = pelicula.getCategorias().size();
+//                    return new PeliculaDTO(pelicula, conteo);
+//                }
+//        ).collect(Collectors.toList());
+    }
 
-        return this.peliculaService.all().stream().map(
-                pelicula -> {
-                    int conteo = pelicula.getCategorias().size();
-                    return new PeliculaDTO(pelicula, conteo);
-                }
-        ).collect(Collectors.toList());
+    //Para rutas http://localhost:8080/peliculas?orden=campo1,sentido1
+    @GetMapping(value = {"", "/"}, params = {"!paginado"})
+    public  List<Pelicula> all (String[] orden) {
+        log.info("Accediendo a todas las películas con filtro buscarOrder");
+        return this.peliculaService.all(orden);
+    }
 
+    //Para rutas: http://localhost:8080/peliculas?orden=campo1,sentido1&orden=campo2,sentido2
+//    @GetMapping(value = {"", "/"}, params = {"!paginado", "!orden"})
+//    public  List<Pelicula> allOrden (String[] orden1) {
+//        log.info("Accediendo a todas las películas con filtro buscarOrder");
+//        return this.peliculaService.allOrden(orden1);
+//    }
 
+    //Para rutas http://localhost:8080/peliculas?paginado=0,1
+    @GetMapping(value = {"", "/"})
+    public ResponseEntity<Map<String, Object>> allPag (@RequestParam(value="paginado", defaultValue = "0") String[] paginado) {
+        log.info("Accediendo a películas con paginación");
+        Map<String, Object> responseAll = this.peliculaService.allPag(paginado);
+        return ResponseEntity.ok(responseAll);
     }
 
 

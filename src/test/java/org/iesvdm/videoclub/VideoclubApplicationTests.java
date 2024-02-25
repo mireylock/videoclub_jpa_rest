@@ -1,6 +1,7 @@
 package org.iesvdm.videoclub;
 
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import lombok.extern.slf4j.Slf4j;
 import org.iesvdm.videoclub.domain.Categoria;
 import org.iesvdm.videoclub.domain.Idioma;
 import org.iesvdm.videoclub.domain.Pelicula;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j
 @SpringBootTest
 class VideoclubApplicationTests {
 
@@ -36,7 +38,36 @@ class VideoclubApplicationTests {
     }
 
     @Test
+    void crear() {
+        Idioma idioma1 = new Idioma();
+        idioma1.setNombre("Inglés");
+        idiomaRepository.save(idioma1);
+
+        Categoria cat1 = new Categoria();
+        cat1.setNombre("Drama");
+        cat1.setUltimaActualizacion(new Date(2024 - 1900, 1, 18, 21, 30, 0));
+
+        Categoria cat2 = new Categoria();
+        cat2.setNombre("Drama2");
+        cat2.setUltimaActualizacion(new Date(2024 - 1900, 1, 18, 21, 30, 0));
+        categoriaRepository.save(cat1);
+        categoriaRepository.save(cat2);
+
+        Pelicula peli1 = new Pelicula();
+        peli1.setTitulo("La sociedad de la nieve");
+        peli1.setIdioma(idioma1);
+        Set<Categoria> categoriasPeli1 = new HashSet<>();
+        categoriasPeli1.add(cat1);
+        categoriasPeli1.add(cat2);
+        peli1.setCategorias(categoriasPeli1);
+        peliculaRepository.save(peli1);
+
+    }
+
+
+    @Test
     void crearIdiomaCategoriaPeli() {
+
         Idioma idioma1 = new Idioma();
         idioma1.setNombre("Inglés");
         idiomaRepository.save(idioma1);
@@ -57,18 +88,22 @@ class VideoclubApplicationTests {
 
         Categoria cat2 = new Categoria();
         cat2.setNombre("Suspense");
+        cat2.setUltimaActualizacion(new Date(2024 - 1900, 1, 18, 21, 30, 0));
         categoriaRepository.save(cat2);
 
         Categoria cat3 = new Categoria();
         cat3.setNombre("Crimen");
+        cat3.setUltimaActualizacion(new Date(2024 - 1900, 1, 18, 21, 30, 0));
         categoriaRepository.save(cat3);
 
         Categoria cat4 = new Categoria();
         cat4.setNombre("Romance");
+        cat4.setUltimaActualizacion(new Date(2024 - 1900, 1, 18, 21, 30, 0));
         categoriaRepository.save(cat4);
 
         Categoria cat5 = new Categoria();
         cat5.setNombre("Thriller");
+        cat5.setUltimaActualizacion(new Date(2024 - 1900, 1, 18, 21, 30, 0));
         categoriaRepository.save(cat5);
 
 
@@ -91,8 +126,8 @@ class VideoclubApplicationTests {
         peliculaRepository.save(peli2);
 
         Set<Categoria> categoriasPeli3 = new HashSet<>();
-        categoriasPeli2.add(cat3);
-        categoriasPeli2.add(cat4);
+        categoriasPeli3.add(cat3);
+        categoriasPeli3.add(cat4);
         Pelicula peli3 = new Pelicula();
         peli3.setTitulo("Tenet");
         peli3.setIdioma(idioma3);
@@ -110,14 +145,6 @@ class VideoclubApplicationTests {
 
     }
 
-    @Test
-    void crearCategoria() {
-        Date fecha = new Date();
-
-        Categoria cat1 = new Categoria(0, "Romantico", new HashSet<>(), fecha);
-        categoriaRepository.save(cat1);
-
-    }
 
     @Test
     void peliculaCustomQuery() {
@@ -126,5 +153,24 @@ class VideoclubApplicationTests {
         pelisExpected.forEach(System.out::println);
     }
 
+    public static void main(String[] args) {
+
+        Categoria cat1 = new Categoria();
+        cat1.setNombre("Drama");
+        cat1.setUltimaActualizacion(new Date(2024 - 1900, 1, 18, 21, 30, 0));
+
+        Categoria cat2 = new Categoria();
+        cat2.setNombre("Suspense");
+
+        Set<Categoria> categoriasPeli1 = new HashSet<>();
+        categoriasPeli1.add(cat1);
+        categoriasPeli1.add(cat2);
+        Pelicula peli1 = new Pelicula();
+        peli1.setTitulo("La sociedad de la nieve");
+        peli1.setCategorias(categoriasPeli1);
+
+        System.out.println("Pelicula1 "+peli1.getCategorias() );
+        System.out.println("Categoria1"+cat1.getPeliculas());
+    }
 
 }

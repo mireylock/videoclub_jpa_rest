@@ -16,6 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -62,10 +63,11 @@ public class Pelicula {
             name = "pelicula_categoria",
             joinColumns = @JoinColumn(name = "id_pelicula", referencedColumnName = "id_pelicula"),
             inverseJoinColumns = @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria"))
-    Set<Categoria> categorias = new HashSet<>();
+    private Set<Categoria> categorias = new HashSet<>();
 
     @Column(name = "ultima_actualizacion")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  shape = JsonFormat.Shape.STRING)
     private Date ultimaActualizacion;
+
 
 }

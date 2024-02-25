@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -26,9 +27,9 @@ public class Categoria {
     private long id;
     private String nombre;
 
-    @ManyToMany(mappedBy = "categorias")
-    @JsonIgnore
-    Set<Pelicula> peliculas = new HashSet<>();
+    @ManyToMany(mappedBy = "categorias", fetch = FetchType.EAGER)
+    //@JsonIgnore
+    private Set<Pelicula> peliculas = new HashSet<>();
 
     @Column(name = "ultima_actualizacion")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  shape = JsonFormat.Shape.STRING)

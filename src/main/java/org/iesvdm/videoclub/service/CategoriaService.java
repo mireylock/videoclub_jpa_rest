@@ -19,7 +19,6 @@ import java.util.Optional;
 public class CategoriaService {
     private final CategoriaRepository categoriaRepository;
 
-
     public CategoriaService(CategoriaRepository categoriaRepository) {
         this.categoriaRepository = categoriaRepository;
     }
