@@ -122,6 +122,7 @@ class VideoclubApplicationTests {
         categoriasPeli1.add(cat1);
         Pelicula peli1 = new Pelicula();
         peli1.setTitulo("La sociedad de la nieve");
+        peli1.setDescripcion("Descripción de la película 1:...");
         peli1.setIdioma(idioma1);
         peli1.setCategorias(categoriasPeli1);
         peliculaRepository.save(peli1);
@@ -132,6 +133,7 @@ class VideoclubApplicationTests {
         categoriasPeli2.add(cat3);
         Pelicula peli2 = new Pelicula();
         peli2.setTitulo("Anatomía de una caída");
+        peli2.setDescripcion("Descripción de la película 2:...");
         peli2.setIdioma(idioma2);
         peli2.setCategorias(categoriasPeli2);
         peliculaRepository.save(peli2);
@@ -141,6 +143,7 @@ class VideoclubApplicationTests {
         categoriasPeli3.add(cat4);
         Pelicula peli3 = new Pelicula();
         peli3.setTitulo("Tenet");
+        peli3.setDescripcion("Descripción de la película 3:...");
         peli3.setIdioma(idioma3);
         peli3.setCategorias(categoriasPeli3);
         peliculaRepository.save(peli3);
@@ -150,9 +153,20 @@ class VideoclubApplicationTests {
         categoriasPeli4.add(cat4);
         Pelicula peli4 = new Pelicula();
         peli4.setTitulo("Dune II");
+        peli4.setDescripcion("Descripción de la película 4:...");
         peli4.setIdioma(idioma2);
         peli4.setCategorias(categoriasPeli4);
         peliculaRepository.save(peli4);
+
+        Set<Categoria> categoriasPeli4a = new HashSet<>();
+        categoriasPeli4a.add(cat1);
+        categoriasPeli4a.add(cat4);
+        Pelicula peli4a = new Pelicula();
+        peli4a.setTitulo("Dune II");
+        peli4a.setDescripcion("ADescripción de la película 4:...");
+        peli4a.setIdioma(idioma2);
+        peli4a.setCategorias(categoriasPeli4a);
+        peliculaRepository.save(peli4a);
 
     }
 

@@ -23,7 +23,7 @@ public class PeliculaController {
         this.peliculaService = peliculaService;
     }
 
-    @GetMapping(value = {"","/"}, params = {"!orden", "!paginado"})
+    @GetMapping(value = {"","/"}, params = {"!orden", "!paginado", "!buscarOrdenDosCampos"})
     public List<Pelicula> all() {
         log.info("Accediendo a todas las películas");
         return this.peliculaService.all();
@@ -36,18 +36,18 @@ public class PeliculaController {
     }
 
     //Para rutas http://localhost:8080/peliculas?orden=campo1,sentido1
-    @GetMapping(value = {"", "/"}, params = {"!paginado"})
+    @GetMapping(value = {"", "/"}, params = {"!paginado", "!buscarOrdenDosCampos"})
     public  List<Pelicula> all (String[] orden) {
         log.info("Accediendo a todas las películas con filtro buscarOrder");
         return this.peliculaService.all(orden);
     }
 
-    //Para rutas: http://localhost:8080/peliculas?orden=campo1,sentido1&orden=campo2,sentido2
-//    @GetMapping(value = {"", "/"}, params = {"!paginado", "!orden"})
-//    public  List<Pelicula> allOrden (String[] orden1) {
-//        log.info("Accediendo a todas las películas con filtro buscarOrder");
-//        return this.peliculaService.allOrden(orden1);
-//    }
+    //Para rutas: http://localhost:8080/peliculas?ordenDosCampos=titulo,asc&buscarOrdenDosCampos=descripcion,desc
+    @GetMapping(value = {"", "/"}, params = {"!paginado"})
+    public  List<Pelicula> allBuscaDosCampos (String[] buscarOrdenDosCampos) {
+        log.info("Accediendo a todas las películas con filtro buscarOrdenDosCampos");
+        return this.peliculaService.allBuscaDosCampos(buscarOrdenDosCampos);
+    }
 
     //Para rutas http://localhost:8080/peliculas?paginado=0,1
     @GetMapping(value = {"", "/"})

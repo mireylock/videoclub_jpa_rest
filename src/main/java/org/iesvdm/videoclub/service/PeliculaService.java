@@ -1,6 +1,5 @@
 package org.iesvdm.videoclub.service;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.iesvdm.videoclub.domain.Pelicula;
 import org.iesvdm.videoclub.exception.PeliculaNotFoundException;
 import org.iesvdm.videoclub.repository.PeliculaRepository;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class PeliculaService {
@@ -29,16 +27,16 @@ public class PeliculaService {
     }
 
     public List<Pelicula> all(String[] buscarOrder) {
-        String buscar = buscarOrder[0];
-        String order = buscarOrder[1];
+        String buscar = buscarOrder[0].length() > 0 ? buscarOrder[0]:"";
+        String order = buscarOrder[1].length() > 1 ? buscarOrder[1]:"";
 
-        if (buscar.equals("")) {
+        if (buscar.isEmpty()) {
             if (order.equals("asc")) {
                 return this.peliculaRepository.findAllByOrderByTituloAsc();
             } else if (order.equals("desc")) {
                 return this.peliculaRepository.findAllByOrderByTituloDesc();
             }
-        } else if (!buscar.equals("")) {
+        } else if (!buscar.isEmpty()) {
             if (order.equals("asc")) {
                 return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCaseOrderByTituloAsc(buscar);
             } else if (order.equals("desc")) {
@@ -53,25 +51,63 @@ public class PeliculaService {
 
     }
 
-    public List<Pelicula> allOrden (String[] buscarOrder) {
+    public List<Pelicula> allBuscaDosCampos (String[] buscarOrdenDosCampos) {
         //["campo1,sentido1", "campo2,sentido2"]
-        String buscar1 = buscarOrder[0];
-        String campo1 = buscar1.split(",")[0];
-        String sentido1 = buscar1.split(",")[1].trim();
+        String buscar1 = buscarOrdenDosCampos.length > 0 ? buscarOrdenDosCampos[0] : "";
+        String buscar2 = buscarOrdenDosCampos.length > 1 ? buscarOrdenDosCampos[1] : "";
 
-        String buscar2 = buscarOrder[1];
-        String campo2 = buscar2.split(",")[0];
-        String sentido2 = buscar2.split(",")[1].trim();
+        String[] camposYSentidos1 = buscar1.split(",");
+        String campo1 = camposYSentidos1.length > 0 ? camposYSentidos1[0] : "";
+        String sentido1 = camposYSentidos1.length > 1 ? camposYSentidos1[1].trim() : "";
 
-        if (!buscar1.equals("")) {
+        String[] camposYSentidos2 = buscar2.split(",");
+        String campo2 = camposYSentidos2.length > 0 ? camposYSentidos2[0] : "";
+        String sentido2 = camposYSentidos2.length > 1 ? camposYSentidos2[1].trim() : "";
+
+        if (!campo1.isEmpty() && !campo2.isEmpty()) {
+            if (sentido1.equals("asc") && sentido2.equals("asc")) {
+                return this.peliculaRepository.findPeliculaByTituloAndDescripcionOrderByTituloAscAndDescripcionAsc(campo1, campo2);
+            } else if (sentido1.equals("asc") && sentido2.equals("desc")) {
+                return this.peliculaRepository.findPeliculaByTituloAndDescripcionOrderByTituloAscAndDescripcionDesc(campo1, campo2);
+            } else if (sentido1.equals("desc") && sentido2.equals("asc")) {
+                return this.peliculaRepository.findPeliculaByTituloAndDescripcionOrderByTituloDescAndDescripcionAsc(campo1, campo2);
+            } else if (sentido1.equals("desc") && sentido2.equals("desc")) {
+                return this.peliculaRepository.findPeliculaByTituloAndDescripcionOrderByTituloDescAndDescripcionDesc(campo1, campo2);
+            } else if (!sentido1.isEmpty() && sentido2.isEmpty()) {
+                if (sentido1.equals("asc")) {
+                    return this.peliculaRepository.findPeliculaByTituloAndDescripcionOrderByTituloAsc(campo1, campo2);
+                } else if (sentido1.equals("desc")) {
+                    return this.peliculaRepository.findPeliculaByTituloAndDescripcionByTituloDesc(campo1, campo2);
+                }
+            } else if (sentido1.isEmpty() && !sentido2.isEmpty()) {
+                if (sentido2.equals("asc")) {
+                    return this.peliculaRepository.findPeliculaByTituloAndDescripcionOrderByDescripcionAsc(campo1, campo2);
+                } else if (sentido2.equals("desc")) {
+                    return this.peliculaRepository.findPeliculaByTituloAndDescripcionOrderByDescripcionDesc(campo1, campo2);
+                }
+            } else {
+                return this.peliculaRepository.findPeliculaByTituloAndDescripcion(campo1, campo2);
+            }
+
+        } else if (!campo1.isEmpty() && campo2.isEmpty()) {
             if (sentido1.equals("asc")) {
-                return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCase(buscar1);
+                return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCaseOrderByTituloAsc(campo1);
             } else if (sentido1.equals("desc")) {
+                return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCaseOrderByTituloDesc(campo1);
+            } else {
+                return this.peliculaRepository.findPeliculaByTituloContainingIgnoreCase(campo1);
+            }
+        } else if (campo1.isEmpty() && !campo2.isEmpty()) {
+            if (sentido2.equals("asc")) {
+                return this.peliculaRepository.findPeliculaByDescripcionContainingIgnoreCaseOrderByDescripcionAsc(campo2);
+            } else if (sentido2.equals("desc")) {
+                return this.peliculaRepository.findPeliculaByDescripcionContainingIgnoreCaseOrderByDescripcionDesc(campo2);
+            } else {
+                return this.peliculaRepository.findPeliculaByDescripcionContainingIgnoreCase(campo2);
             }
         }
 
         return this.peliculaRepository.findAll();
-
     }
 
     public Map<String, Object> allPag (String[] paginado) {
@@ -92,10 +128,7 @@ public class PeliculaService {
     }
 
 
-
-
-
-        public Pelicula save(Pelicula pelicula) {
+    public Pelicula save(Pelicula pelicula) {
         return this.peliculaRepository.save(pelicula);
     }
 
