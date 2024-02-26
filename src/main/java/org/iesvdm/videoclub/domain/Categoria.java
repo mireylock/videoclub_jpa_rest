@@ -20,20 +20,19 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder //puedo generar builders de categoría
 public class Categoria {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_categoria")
     private long id;
     private String nombre;
 
-    @ManyToMany(mappedBy = "categorias", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "categorias", fetch = FetchType.EAGER,  cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE})
     //@JsonIgnore
     private Set<Pelicula> peliculas = new HashSet<>();
 
     @Column(name = "ultima_actualizacion")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  shape = JsonFormat.Shape.STRING)
     private Date ultimaActualizacion;
-
-
 }

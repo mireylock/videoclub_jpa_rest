@@ -46,22 +46,33 @@ class VideoclubApplicationTests {
         Categoria cat1 = new Categoria();
         cat1.setNombre("Drama");
         cat1.setUltimaActualizacion(new Date(2024 - 1900, 1, 18, 21, 30, 0));
+        categoriaRepository.save(cat1);
 
         Categoria cat2 = new Categoria();
-        cat2.setNombre("Drama2");
-        cat2.setUltimaActualizacion(new Date(2024 - 1900, 1, 18, 21, 30, 0));
-        categoriaRepository.save(cat1);
+        cat2.setNombre("Suspense");
         categoriaRepository.save(cat2);
 
+        Categoria cat3 = new Categoria();
+        cat3.setNombre("Crimen");
+        categoriaRepository.save(cat3);
+
+        Set<Categoria> categoriasPeli1 = new HashSet<>();
+        categoriasPeli1.add(cat1);
+        categoriasPeli1.add(cat3);
         Pelicula peli1 = new Pelicula();
         peli1.setTitulo("La sociedad de la nieve");
         peli1.setIdioma(idioma1);
-        Set<Categoria> categoriasPeli1 = new HashSet<>();
-        categoriasPeli1.add(cat1);
-        categoriasPeli1.add(cat2);
         peli1.setCategorias(categoriasPeli1);
         peliculaRepository.save(peli1);
 
+        Set<Categoria> categoriasPeli2 = new HashSet<>();
+        categoriasPeli2.add(cat2);
+        categoriasPeli2.add(cat3);
+        Pelicula peli2 = new Pelicula();
+        peli2.setTitulo("Anatomía de una caída");
+        peli2.setIdioma(idioma1);
+        peli2.setCategorias(categoriasPeli2);
+        peliculaRepository.save(peli2);
     }
 
 
@@ -151,26 +162,6 @@ class VideoclubApplicationTests {
         List<Pelicula> pelisExpected = this.peliculaCustomQuery.findPelicula(Optional.of("La"), Optional.of("asc"));
 
         pelisExpected.forEach(System.out::println);
-    }
-
-    public static void main(String[] args) {
-
-        Categoria cat1 = new Categoria();
-        cat1.setNombre("Drama");
-        cat1.setUltimaActualizacion(new Date(2024 - 1900, 1, 18, 21, 30, 0));
-
-        Categoria cat2 = new Categoria();
-        cat2.setNombre("Suspense");
-
-        Set<Categoria> categoriasPeli1 = new HashSet<>();
-        categoriasPeli1.add(cat1);
-        categoriasPeli1.add(cat2);
-        Pelicula peli1 = new Pelicula();
-        peli1.setTitulo("La sociedad de la nieve");
-        peli1.setCategorias(categoriasPeli1);
-
-        System.out.println("Pelicula1 "+peli1.getCategorias() );
-        System.out.println("Categoria1"+cat1.getPeliculas());
     }
 
 }

@@ -27,14 +27,14 @@ public class CategoriaController {
     @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar", "!pagina", "!tamanio"})
     public List<Categoria> all() {
         log.info("Accediendo a todas las categorias");
-//        return this.categoriaService.all();
+        return this.categoriaService.all();
 
-        return this.categoriaService.all().stream().map(
-                categoria -> {
-                    int conteo = categoria.getPeliculas().size();
-                    return new CategoriaDTO(categoria, conteo);
-                }
-        ).collect(Collectors.toList());
+//        return this.categoriaService.all().stream().map(
+//                categoria -> {
+//                    int conteo = categoria.getPeliculas().size();
+//                    return new CategoriaDTO(categoria, conteo);
+//                }
+//        ).collect(Collectors.toList());
     }
 
     //Para rutas: http://localhost:8080/categorias?buscar=campo&order=desc
