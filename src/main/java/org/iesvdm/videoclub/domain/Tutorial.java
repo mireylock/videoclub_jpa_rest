@@ -3,6 +3,7 @@ package org.iesvdm.videoclub.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -19,9 +20,11 @@ import java.util.List;
         schema="videoclub_jpa",
         indexes = {@Index(name="tutorialIndex", columnList = "titulo")}
 )
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Tutorial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private long id_tutorial;
     @Column(name="titulo", length = 50)
     private String titulo;
