@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface PeliculaCustomQuery {
     public List<Pelicula> findPelicula (Optional<String> titulo, Optional<String> orden);
+    public List<Pelicula> findPeliculaPaginacion (Optional<String> titulo, Optional<String> orden, Optional<Integer> tamanio, Optional<Integer> pagina);
+
 }
